@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const UserModel = require("../server/models/User");
+const UserModel = require("./models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const PORT = process.env.PORT || 5000; 
