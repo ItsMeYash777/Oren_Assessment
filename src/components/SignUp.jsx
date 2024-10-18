@@ -10,6 +10,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+   const BASE_URL = "https://oren-assessment-6.onrender.com/api";
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ const SignUp = () => {
 
     try {
       console.log("Sending registration request...");
-      const response = await axios.post("http://localhost:5001/api/signup", {
+      const response = await axios.post(`${BASE_URL}/signup`, {
         name,
         email,
         password,

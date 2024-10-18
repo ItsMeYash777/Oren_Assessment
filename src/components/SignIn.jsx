@@ -8,6 +8,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); 
   const navigate = useNavigate();
+  const BASE_URL = "https://oren-assessment-6.onrender.com/api";
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const SignIn = () => {
 
     try {
       console.log("Sending sign-in request...");
-      const response = await axios.post("http://localhost:5001/api/signin", {
+      const response = await axios.post(`${BASE_URL}/signin`, {
         email,
         password,
       });
