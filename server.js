@@ -11,7 +11,9 @@ const mongo_url = process.env.MONGO_URI;
 app.use(express.json());
 app.use(cors());
 
-
+app.get("/", (req, res) => {
+  res.send("Server is up and running!");
+});
 //Signup Route
 app.post("/api/signup", async (req, res) => {
   try {
