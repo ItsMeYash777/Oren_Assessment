@@ -6,7 +6,7 @@ require("dotenv").config();
 const UserModel = require("./models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT; 
 const mongo_url = process.env.MONGO_URI;
 app.use(express.json());
 app.use(cors());
