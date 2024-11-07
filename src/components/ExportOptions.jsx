@@ -1,5 +1,4 @@
-import React from "react";
-import jsPDF from "jspdf";
+
 import * as XLSX from "xlsx";
 
 const ExportOptions = ({ metrics, chartRefs }) => {

@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo (1).png";
 import axios from "axios";
+import { useAuth } from "../context/authContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const BASE_URL = "https://oren-assessment-6.onrender.com/api";
+  const BASE_URL = "http://localhost:5001/api";
+  const { setAuth } = useAuth();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -22,8 +24,9 @@ const SignIn = () => {
       });
 
       console.log("User signed in:", response.data);
+      console.log("Received JWT Token:", response.data.jwtToken);
       localStorage.setItem("jwtToken", response.data.jwtToken);
-
+      setAuth({ isAuthenticated: true, token: response.data.jwtToken });
       alert("You have successfully logged in!");
       navigate("/dashboard");
     } catch (error) {
@@ -109,9 +112,7 @@ const SignIn = () => {
         </form>
 
         {error && (
-          <p className="mt-4 text-sm text-red-500 text-center">
-            {error}
-          </p>
+          <p className="mt-4 text-sm text-red-500 text-center">{error}</p>
         )}
 
         <div className="text-sm text-center mt-4">

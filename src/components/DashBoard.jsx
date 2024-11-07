@@ -4,6 +4,7 @@ import DataInputForm from "./DataInputForm";
 import MetricChart from "./MetricChart";
 import Comparsion from "./Comparsion";
 import ExportOptions from "./ExportOptions";
+import { useAuth } from "../context/authContext";
 
 const Dashboard = () => {
   const [metrics, setMetrics] = useState({
@@ -14,13 +15,14 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
   const chartRefs = useRef([]);
+  const { signOut } = useAuth();
 
   const handleDataInput = (newMetrics) => {
     setMetrics(newMetrics);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("jwtToken");
+    signOut();
     navigate("/");
     console.log("User logged out.");
   };

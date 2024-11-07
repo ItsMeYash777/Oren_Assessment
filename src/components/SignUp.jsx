@@ -10,7 +10,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-   const BASE_URL = "https://oren-assessment-6.onrender.com/api";
+   const BASE_URL = "http://localhost:5001/api";
 
   const handleSignUp = async (e) => {
     e.preventDefault();
