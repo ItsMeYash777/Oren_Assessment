@@ -53,12 +53,12 @@ exports.signin = async (req, res) => {
     res.cookie("jwt", jwtToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "None",
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "None",
     });
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
@@ -83,7 +83,7 @@ exports.refreshToken = (req, res) => {
     res.cookie("jwt", newToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
     });
     res.status(200).json({ message: "Token refreshed" });
   } catch (error) {
