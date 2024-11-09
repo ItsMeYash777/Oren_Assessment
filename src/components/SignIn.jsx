@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo (1).png";
 import axios from "axios";
@@ -9,8 +9,13 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-   const BASE_URL = "https://oren-assessment-6.onrender.com/api";
-  const { setAuth } = useAuth();
+  const BASE_URL = "https://oren-assessment-6.onrender.com/api";
+  const { auth, setAuth } = useAuth();
+  useEffect(() => {
+    if (auth && auth.isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [auth, navigate]);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -18,10 +23,14 @@ const SignIn = () => {
 
     try {
       console.log("Sending sign-in request...");
-      const response = await axios.post(`${BASE_URL}/signin`, {
-        email,
-        password,
-      }, {withCredentials:true});
+      const response = await axios.post(
+        `${BASE_URL}/signin`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       console.log("User signed in:", response.data);
       setAuth({ isAuthenticated: true });
       alert("You have successfully logged in!");

@@ -6,8 +6,8 @@ import PropTypes from "prop-types";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const BASE_URL = "http://localhost:5001/api";
-  const [auth, setAuth] = useState({ isAuthenticated: false, token: null });
+  const BASE_URL = "https://oren-assessment-6.onrender.com/api";
+  const [auth, setAuth] = useState({ isAuthenticated: false });
   const navigate = useNavigate();
 
   // Check authentication status
@@ -19,16 +19,16 @@ export const AuthProvider = ({ children }) => {
 
       // Only update auth state if the response is valid
       if (response.data.isAuthenticated) {
+        console.log(response.data, "Client");
         setAuth({
           isAuthenticated: true,
-          token: response.data.token || null,
         });
       } else {
-        setAuth({ isAuthenticated: false, token: null });
-        navigate("/"); 
+        setAuth({ isAuthenticated: false });
+        navigate("/");
       }
     } catch (error) {
-      setAuth({ isAuthenticated: false, token: null });
+      setAuth({ isAuthenticated: false });
       navigate("/");
     }
   };
@@ -40,33 +40,42 @@ export const AuthProvider = ({ children }) => {
         withCredentials: true,
       });
 
-      if (response.status === 200 && response.data.token) {
+      if (response.status === 200) {
         setAuth({
           isAuthenticated: true,
-          token: response.data.token,
         });
       } else {
-        setAuth({ isAuthenticated: false, token: null });
+        setAuth({ isAuthenticated: false });
         navigate("/"); // Navigate to sign-in if refresh fails
       }
     } catch (error) {
-      setAuth({ isAuthenticated: false, token: null });
+      setAuth({ isAuthenticated: false });
       navigate("/"); // Navigate to sign-in if refresh fails
     }
   };
 
+ 
   useEffect(() => {
-    // Check auth status on initial load
-    checkAuthStatus();
+    // Function to handle both checkAuthStatus and refreshToken calls
+    const handleAuth = async () => {
+      await checkAuthStatus();
 
-    // Set up token refresh interval
-    const interval = setInterval(() => {
       if (auth.isAuthenticated) {
-        refreshToken(); 
+        await refreshToken();
       }
-    }, 300000); 
-    return () => clearInterval(interval);
-  }, []); 
+    };
+
+    // Initial call on component mount
+    handleAuth();
+
+    // Set up interval for recurring calls
+    const interval = setInterval(() => {
+      handleAuth();
+      console.log("Token refreshed");
+    }, 240000);
+
+    return () => clearInterval(interval); // Clean up on component unmount
+  }, []);
 
   const signOut = async () => {
     try {

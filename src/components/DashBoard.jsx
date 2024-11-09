@@ -12,10 +12,10 @@ const Dashboard = () => {
     waterUsage: Array(5).fill(0),
     wasteGenerated: Array(5).fill(0),
   });
-  const { auth, signOut } = useAuth(); 
+  const { auth, signOut} = useAuth(); 
   const navigate = useNavigate();
   const chartRefs = useRef([]);
-
+  
     useEffect(() => {
       if (!auth.isAuthenticated) {
         navigate("/");
