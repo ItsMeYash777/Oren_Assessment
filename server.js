@@ -9,9 +9,17 @@ const authRoutes = require("./routes/authRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const mongo_url = process.env.MONGO_URI;
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173',  // Allow only the frontend to make requests
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allowed methods
+  credentials: true,  // Allow credentials (cookies, authorization headers)
+};
+
+app.use(cors(corsOptions));
 
 
 app.get("/", (req, res) => {
