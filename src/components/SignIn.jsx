@@ -9,7 +9,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const BASE_URL = "http://localhost:5001/api";
+  const BASE_URL = "https://oren-assessment-6.onrender.com/api";
   const { setAuth } = useAuth();
 
   const handleSignIn = async (e) => {
