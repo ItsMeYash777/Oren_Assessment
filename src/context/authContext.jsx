@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
   const signOut = async () => {
     try {
       await axios.get(`${BASE_URL}/logout`, { withCredentials: true , credentials : "include" });
-      setAuth({ isAuthenticated: false, token: null });
+      setAuth({ isAuthenticated: false });
       alert("You have successfully logged out");
       navigate("/");
     } catch (error) {
