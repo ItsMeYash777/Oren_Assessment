@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DataInputForm from "./DataInputForm";
 import MetricChart from "./MetricChart";
@@ -12,10 +12,15 @@ const Dashboard = () => {
     waterUsage: Array(5).fill(0),
     wasteGenerated: Array(5).fill(0),
   });
-
+  const { auth, signOut } = useAuth(); 
   const navigate = useNavigate();
   const chartRefs = useRef([]);
-  const { signOut } = useAuth();
+
+    useEffect(() => {
+      if (!auth.isAuthenticated) {
+        navigate("/");
+      }
+    }, [auth.isAuthenticated, navigate]);
 
   const handleDataInput = (newMetrics) => {
     setMetrics(newMetrics);

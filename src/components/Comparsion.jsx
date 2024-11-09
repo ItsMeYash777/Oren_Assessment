@@ -8,7 +8,14 @@ const Comparsion = ({ metrics }) => {
     wasteGenerated: 50,
   };
 
-  const calculateAverage = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
+ const calculateAverage = (arr) => {
+   if (Array.isArray(arr)) {
+     return arr.reduce((acc, value) => acc + value, 0) / arr.length;
+   } else {
+     console.error("Expected an array, but got:", arr);
+     return 0; // or some default value
+   }
+ };
 
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

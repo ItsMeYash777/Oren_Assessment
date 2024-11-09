@@ -21,20 +21,15 @@ const SignIn = () => {
       const response = await axios.post(`${BASE_URL}/signin`, {
         email,
         password,
-      });
-
+      }, {withCredentials:true});
       console.log("User signed in:", response.data);
-      console.log("Received JWT Token:", response.data.jwtToken);
-      localStorage.setItem("jwtToken", response.data.jwtToken);
-      setAuth({ isAuthenticated: true, token: response.data.jwtToken });
+      setAuth({ isAuthenticated: true });
       alert("You have successfully logged in!");
       navigate("/dashboard");
     } catch (error) {
       console.error("Error during sign-in:", error);
-
       if (error.response) {
         const status = error.response.status;
-
         if (status === 409) {
           setError("Invalid email or password. Please try again.");
         } else if (status >= 500) {
