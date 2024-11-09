@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 const corsOptions = {
-  origin: "https://oren-assessment-6pgtmtmu1-itsmeyash777s-projects.vercel.app", // Allow only the frontend to make requests
+  origin: "*", // Allow only the frontend to make requests
   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
   credentials: true, // Allow credentials (cookies, authorization headers)
 };
