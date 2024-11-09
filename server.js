@@ -12,9 +12,9 @@ const mongo_url = process.env.MONGO_URI;
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-app.use(express.json());
+app.use(express.json());y
 const corsOptions = {
-  origin: "https://oren-assessment.vercel.app/", // Allow only the frontend to make requests
+  origin: "https://oren-assessment-6pgtmtmu1-itsmeyash777s-projects.vercel.app", // Allow only the frontend to make requests
   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
   credentials: true, // Allow credentials (cookies, authorization headers)
 };
