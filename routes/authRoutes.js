@@ -10,7 +10,7 @@ router.get("/refresh-token", refreshToken)
 router.get("/dashboard", verifyToken,(req,res)=>{
     res
       .status(200)
-      .json({ message: "Access Granted for Dashboard", isAuthenticated: true });
+      .json({ message: "Access Granted for Dashboard", isAuthenticated: true, token: req.user.token });
 });
 router.get("/logout",logout);
 
