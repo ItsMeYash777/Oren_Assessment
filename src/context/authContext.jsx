@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/dashboard`, {
-        withCredentials: true,
+        withCredentials: true, credentials : "include"
       });
 
       // Only update auth state if the response is valid
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
 
   const signOut = async () => {
     try {
-      await axios.get(`${BASE_URL}/logout`, { withCredentials: true });
+      await axios.get(`${BASE_URL}/logout`, { withCredentials: true , credentials : "include" });
       setAuth({ isAuthenticated: false, token: null });
       alert("You have successfully logged out");
       navigate("/");

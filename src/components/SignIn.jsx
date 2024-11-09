@@ -29,7 +29,7 @@ const SignIn = () => {
           email,
           password,
         },
-        { withCredentials: true }
+        { withCredentials: true, credentials : "include" }
       );
       console.log("User signed in:", response.data);
       setAuth({ isAuthenticated: true });
