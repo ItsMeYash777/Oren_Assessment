@@ -29,9 +29,13 @@ const Dashboard = () => {
   const handleSaveMetrics = async () => {
     try {
       // Send data to the backend
-      const response = await axios.post("http://localhost:5001/api/metrics", metrics, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "https://oren-assessment-6.onrender.com/api/metrics",
+        metrics,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data.success) {
         alert(response.data.message); // "Metrics saved successfully"
