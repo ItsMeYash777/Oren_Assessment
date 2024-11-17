@@ -1,5 +1,5 @@
 const express = require("express");
-const { signup, signin, refreshToken, logout, checkAuth, getMetrics, saveMetrics } = require("../controllers/authController");
+const { signup, signin, refreshToken, logout, saveMetrics,checkSession } = require("../controllers/authController");
 const {verifyToken} = require("../middlewares/authMiddleware")
 
 const router = express.Router();
@@ -13,10 +13,8 @@ router.get("/dashboard", verifyToken,(req,res)=>{
       .json({ message: "Access Granted for Dashboard", isAuthenticated: true, token: req.user.token });
 });
 router.get("/logout",logout);
+router.get("/check-session",checkSession);
 
-// Routes for metrics data
-
-router.get("/metrics", getMetrics);
 router.post("/metrics",saveMetrics)
 
 
