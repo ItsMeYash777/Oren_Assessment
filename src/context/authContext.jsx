@@ -8,79 +8,68 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const BASE_URL = "https://oren-assessment-6.onrender.com/api";
   const [auth, setAuth] = useState({ isAuthenticated: false });
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Check authentication status
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/dashboard`, {
-        withCredentials: true, credentials : "include"
+      const response = await axios.get(`${BASE_URL}/check-session`, {
+        withCredentials: true
       });
-
-      // Only update auth state if the response is valid
       if (response.data.isAuthenticated) {
         console.log(response.data, "Client");
         setAuth({
           isAuthenticated: true,
+          user: response.data.user,
         });
-      } else {
-        setAuth({ isAuthenticated: false });
-        navigate("/");
+        return true;
       }
+      return false;
     } catch (error) {
-      setAuth({ isAuthenticated: false });
-      navigate("/");
+      console.log("Auth check failed", error);
+      return false;
+    }finally{
+      setIsLoading(false);
     }
   };
-
-  // Refresh Token Function
   const refreshToken = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/refresh-token`, {
         withCredentials: true,
       });
-
-      if (response.status === 200) {
-        setAuth({
-          isAuthenticated: true,
-        });
-      } else {
-        setAuth({ isAuthenticated: false });
-        navigate("/"); // Navigate to sign-in if refresh fails
-      }
+      return response.data.isAuthenticated;
     } catch (error) {
-      setAuth({ isAuthenticated: false });
-      navigate("/"); // Navigate to sign-in if refresh fails
+      console.log("Refresh token failed", error); 
     }
   };
 
  
-  useEffect(() => {
-    // Function to handle both checkAuthStatus and refreshToken calls
+  useEffect(() => { 
     const handleAuth = async () => {
-      await checkAuthStatus();
-
-      if (auth.isAuthenticated) {
-        await refreshToken();
+      try {
+        const isValid = await checkAuthStatus();
+        if (!isValid) {
+          const refreshed = await refreshToken();
+          if (!refreshed) {
+            setAuth({ isAuthenticated: false });
+            navigate("/");
+          }
+        }
+      } catch (error) {
+        console.error("Auth handling failed:", error);
+        setAuth({ isAuthenticated: false });
+        navigate("/");
       }
     };
-
-    // Initial call on component mount
     handleAuth();
-
-    // Set up interval for recurring calls
-    const interval = setInterval(() => {
-      handleAuth();
-      console.log("Token refreshed");
-    }, 240000);
-
-    return () => clearInterval(interval); // Clean up on component unmount
-  }, []);
+    const interval = setInterval(refreshToken, 45 * 60 * 1000);
+    return () => clearInterval(interval); 
+  }, [navigate]);
 
   const signOut = async () => {
     try {
       await axios.get(`${BASE_URL}/logout`, { withCredentials: true , credentials : "include" });
-      setAuth({ isAuthenticated: false });
+      setAuth({ isAuthenticated: false, token: null });
       alert("You have successfully logged out");
       navigate("/");
     } catch (error) {

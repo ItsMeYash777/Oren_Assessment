@@ -29,12 +29,19 @@ const SignIn = () => {
           email,
           password,
         },
-        { withCredentials: true, credentials : "include" }
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       console.log("User signed in:", response.data);
       setAuth({ isAuthenticated: true });
-      alert("You have successfully logged in!");
-      navigate("/dashboard");
+      alert("You have successfully logged in");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 100);
     } catch (error) {
       console.error("Error during sign-in:", error);
       if (error.response) {
