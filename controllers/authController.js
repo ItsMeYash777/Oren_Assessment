@@ -51,7 +51,7 @@ exports.signin = async (req, res) => {
     res.cookie("jwt", jwtToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Lax",
+      sameSite: "None",
       path: "/",
       maxAge: 15 * 60 * 1000,
       domain: ".onrender.com",
@@ -59,7 +59,7 @@ exports.signin = async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: false,
-      sameSite: "Lax",
+      sameSite: "None",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       domain: ".onrender.com",
@@ -95,7 +95,9 @@ exports.refreshToken = (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
-      maxAge: 15 * 60 * 1000
+      path :"/",
+      maxAge: 15 * 60 * 1000,
+      domain: ".onrender.com",
     });
     res.status(200).json({ message: "Token refreshed" });
   } catch (error) {
@@ -108,7 +110,7 @@ exports.logout = (req, res) => {
     httpOnly: true,
     secure: true,
     expires: new Date(0),
-   
+    domain: ".onrender.com",
     path: "/",
     sameSite: "None",
   });
@@ -116,7 +118,7 @@ exports.logout = (req, res) => {
     httpOnly: true,
     secure: true,
     expires: new Date(0),
-    
+    domain: ".onrender.com",
     path: "/",
     sameSite: "None",
   });
